@@ -30,4 +30,8 @@ app.get("/feature-6", (req, res) => {
   res.send("Feature 6!");
 });
 
+app.get("/feature-7", (req, res) => {
+  res.send("Feature 7!");
+});
+
 module.exports = app;
