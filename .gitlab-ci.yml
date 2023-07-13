@@ -2,13 +2,16 @@ stages:
   - build_and_test
   - containerize
   # is something missing here?
+  - deploy
 
 build_and_test:
   stage: build_and_test
   # specify a suitable image where npm is available
+  image: node:latest
   script:
     - npm install
     # test the application
+    - npm run test
 
 containerize:
   stage: containerize
@@ -19,6 +22,8 @@ containerize:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     # build and tag the image (refer to the gitlab container registry for the correct tagname)
     # push the image to the gitlab container registry
+    - docker build -t registry.gitlab.com/nkamanyi/lut-dev-ops-assignment .
+    - docker push registry.gitlab.com/nkamanyi/lut-dev-ops-assignment
 
 deploy:
   stage: deploy
@@ -27,3 +32,5 @@ deploy:
   environment:
     # define the environment name
     # define the environment url
+    name: production environment
+    url: https://lut-devops-app1.azurewebsites.net/
